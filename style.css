@@ -16,8 +16,13 @@
     font-size: 20px;
 }
 
+.hot-question-link {
+    font-size: 25px;
+}
+
 .page-head {
     background-color: #E0E0F8;
+    height: 70px;
 }
 
 h1, h2, h3 {
@@ -49,4 +54,10 @@ h1, h2, h3 {
 .img-avatar {
     margin-left: 5px;
     margin-top: 10px;
+}
+
+.img-avatar-header {
+    border:0;
+    outline: none;
+
 }
