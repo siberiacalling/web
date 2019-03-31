@@ -2,7 +2,7 @@
   <a href="https://park.mail.ru/">
     <img
       alt="Технопарк Mail.ru"
-      src="files/img/tpark_logo.jpg"
+      src="/img/tpark_logo.jpg"
       width="400"
     />
   </a>
