@@ -15,52 +15,29 @@
 <body>
 
 
-<div class="align-items-center row border-bottom shadow-sm  mb-3 p-3 page-head justify-content-center">
+<div class="align-items-center row border-bottom shadow-sm  mb-3 p-3 page-head row justify-content-center">
     <div class="col-1">
         <h2 class="my-0 font-weight-bold">Ask.me</h2>
     </div>
-    <div class="col-5 mr-0">
+    <div class="col-6 mr-0">
         <nav style="width: 600px;">
             <input class="form-control" type="text" placeholder="Search" aria-label="Search">
         </nav>
     </div>
-    <div class="col-3">
-        <img src="./anon.png" width="55" height="55" class="img-avatar-header"/>
-        <span style="margin-left:10px">   User Name </span>
-        <a class="btn btn-link" href="#">Settings</a>
-        <a class="btn btn-link" href="#">Log out</a>
-
+    <div class="col-2">
+        <a class="btn btn-outline-info" href="#">Log in</a>
+        <a class="ml-0 btn btn-outline-primary" href="#">Sign up</a>
     </div>
-
 </div>
 
 
 <div class="container">
-    <div class="row justify-content-center">
-        <div class="top_header col-md-8 col-centered border-bottom shadow-sm top_question">
-            <div class="row">
-                <div class="col-md-8">
-                    <h2 class="col">Top Questions</h2>
-                </div>
-                <div class="col-md-4">
-                    <a href="#" class="hot-question-link">Hot questions</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4" role="navigation">
-            <a href="/questions/ask" class="btn btn-outline-primary">
-                Ask Question
-            </a>
-        </div>
-    </div>
-
-
     <div class="row mb-2">
         <div class="col-md-8">
-            <div class=" question row border shadow-sm mb-4">
+            <div class="one-question row border-bottom shadow-sm mb-4">
                 <div class="col-2">
                     <div class="row">
-                        <div class="col-12 pt-3 pl-4">
+                        <div class="col-12 pt-4 pl-4">
                             <img src="./anon.png" class="img-avatar"/>
                         </div>
 
@@ -78,10 +55,10 @@
                         <div class="col">
                             <a href="#" class="question-link">Remove spacing between cols</a>
                             <p style="white-space: pre-line"> I want to remove the space between multiple columns in the
-                                Bootstrap grid ... </p>
+                                Bootstrap grid I want to remove the space between multiple columns in the Bootstrap grid I want to remove the space between</p>
                         </div>
                     </div>
-                    <div class="row mt-4">
+                    <div class="row mt-5">
                         <div class="col-6">
                             <a href="#">answers(3)</a>
                         </div>
@@ -96,10 +73,10 @@
             </div>
 
 
-            <div class=" question row border shadow-sm mb-4">
+            <div class="answer row border shadow-sm mb-4">
                 <div class="col-2">
                     <div class="row">
-                        <div class="col-12 pt-3 pl-4">
+                        <div class="col-12 pt-4 pl-4">
                             <img src="./anon.png" class="img-avatar"/>
                         </div>
 
@@ -115,29 +92,18 @@
                 <div class="col-8 mt-2">
                     <div class="row">
                         <div class="col">
-                            <a href="#" class="question-link">Remove spacing between cols</a>
+                            <a href="#" class="question-link">Answer 1</a>
                             <p style="white-space: pre-line"> I want to remove the space between multiple columns in the
-                                Bootstrap grid ... </p>
-                        </div>
-                    </div>
-                    <div class="row mt-4">
-                        <div class="col-6">
-                            <a href="#">answers(3)</a>
-                        </div>
-                        <div class="col-6">
-                            <span style="white-space: pre-line"> Tags: </span>
-                            <a href="#" class="tags">black-jack</a>
-                            <a href="#" class="tags">heh</a>
-
+                                Bootstrap grid I want to remove the space between multiple columns in the Bootstrap grid I want to remove the space between</p>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class=" question row border shadow-sm mb-4">
+            <div class="answer row border shadow-sm mb-4">
                 <div class="col-2">
                     <div class="row">
-                        <div class="col-12 pt-3 pl-4">
+                        <div class="col-12 pt-4 pl-4">
                             <img src="./anon.png" class="img-avatar"/>
                         </div>
 
@@ -153,20 +119,9 @@
                 <div class="col-8 mt-2">
                     <div class="row">
                         <div class="col">
-                            <a href="#" class="question-link">Remove spacing between cols</a>
+                            <a href="#" class="question-link">Answer 2</a>
                             <p style="white-space: pre-line"> I want to remove the space between multiple columns in the
-                                Bootstrap grid ... </p>
-                        </div>
-                    </div>
-                    <div class="row mt-4">
-                        <div class="col-6">
-                            <a href="#">answers(3)</a>
-                        </div>
-                        <div class="col-6">
-                            <span style="white-space: pre-line"> Tags: </span>
-                            <a href="#" class="tags">black-jack</a>
-                            <a href="#" class="tags">heh</a>
-
+                                Bootstrap grid I want to remove the space between multiple columns in the Bootstrap grid I want to remove the space between</p>
                         </div>
                     </div>
                 </div>
@@ -211,7 +166,7 @@
             </div>
 
 
-            <div class="row ">
+            <div class="row">
                 <div class=" col-md-6">
                     <a href="#" class="best-users">Pavel Golubev</a>
                 </div>
@@ -233,7 +188,21 @@
             </div>
         </div>
 
-    </div>
+
+
+
+        <div class="col-md-8">
+            <form>
+                <div class="form-group">
+                    <label for="answer">Your answer</label>
+                    <textarea class="form-control" id="answer" rows="3"
+                              placeholder="Enter your answer"></textarea>
+                </div>
+            </form>
+            <a href="/questions/ask" class="btn btn-outline-primary">Aswer</a>
+        </div>
+
+        </div>
 </div>
 
 <!-- Optional JavaScript -->

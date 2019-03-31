@@ -51,6 +51,12 @@ h1, h2, h3 {
     height: 165px;
 }
 
+.one-question {
+    height: 220px;
+}
+.answer{
+    height: 165px;
+}
 .img-avatar {
     margin-left: 5px;
     margin-top: 10px;

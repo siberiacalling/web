@@ -38,27 +38,34 @@
         <div class="top_header col-md-8 col-centered border-bottom shadow-sm top_question">
             <div class="row">
                 <div class="col-md-8">
-                    <h2 class="col">Top Questions</h2>
-                </div>
-                <div class="col-md-4">
-                    <a href="#" class="hot-question-link">Hot questions</a>
+                    <h2 class="col">Log In</h2>
                 </div>
             </div>
         </div>
         <div class="col-md-4" role="navigation">
-            <a href="/questions/ask" class="btn btn-outline-primary">
-                Ask Question
-            </a>
         </div>
     </div>
 
 
     <div class="row mb-2">
         <div class="col-md-8">
+            <form>
+                <div class="form-group">
+                    <label for="login">Login</label>
+                    <input type="text" class="form-control" id="login" placeholder="alina@gmail.com">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="password">
+                </div>
+
+            </form>
+            <a href="/questions/ask" class="btn btn-outline-primary">Login</a>
+            <a class="btn btn-link" href="#">Create a new account</a>
         </div>
 
         <div class="col-md-4 p-100">
-            <div class="row">
+            <div class="row ml-1">
                 <div class="my-header">
                     <h3 class="col-centered m-150">
                         Popular tags
@@ -86,7 +93,7 @@
                 </div>
             </div>
 
-            <div class="row">
+            <div class="row ml-1">
                 <div class="my-header">
                     <h3 class="col-centered m-150 mt-5">
                         Best members
@@ -95,7 +102,7 @@
             </div>
 
 
-            <div class="row">
+            <div class="row ">
                 <div class=" col-md-6">
                     <a href="#" class="best-users">Pavel Golubev</a>
                 </div>
@@ -117,6 +124,9 @@
             </div>
         </div>
 
+
+        <div class="col-md-8">
+        </div>
 
     </div>
 </div>
