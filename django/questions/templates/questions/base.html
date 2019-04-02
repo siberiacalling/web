@@ -1,4 +1,5 @@
 <!doctype html>
+{% load static %}
 <html lang="en">
 <head>
     <!-- Required meta tags -->
@@ -9,11 +10,10 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <title>Ask.me</title>
 </head>
 <body>
-
 
 <div class="align-items-center row border-bottom shadow-sm  mb-3 p-3 page-head row justify-content-center">
     <div class="col-1">
@@ -32,27 +32,9 @@
 
 </div>
 
-
+{%block content%}
+{%endblock%}
 <div class="container">
-    <div class="row justify-content-center">
-        <div class="top_header col-md-8 col-centered border-bottom shadow-sm top_question">
-            <div class="row">
-                <div class="col-md-8">
-                    <h2 class="col">Top Questions</h2>
-                </div>
-                <div class="col-md-4">
-                    <a href="#" class="hot-question-link">Hot questions</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4" role="navigation">
-            <a href="/questions/ask" class="btn btn-outline-primary">
-                Ask Question
-            </a>
-        </div>
-    </div>
-
-
     <div class="row mb-2">
         <div class="col-md-8">
         </div>
@@ -116,8 +98,6 @@
                 </div>
             </div>
         </div>
-
-
     </div>
 </div>
 

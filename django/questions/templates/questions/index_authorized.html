@@ -1,4 +1,5 @@
 <!doctype html>
+{% load static %}
 <html lang="en">
 <head>
     <!-- Required meta tags -->
@@ -9,7 +10,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
     <title>Ask.me</title>
 </head>
 <body>
@@ -25,7 +27,7 @@
         </nav>
     </div>
     <div class="col-3">
-        <img src="./anon.png" width="55" height="55" class="img-avatar-header"/>
+        <img src="{% static 'anon.png' %}" width="55" height="55" class="img-avatar-header"/>
         <span style="margin-left:10px">   User Name </span>
         <a class="btn btn-link" href="#">Settings</a>
         <a class="btn btn-link" href="#">Log out</a>
@@ -57,18 +59,19 @@
 
     <div class="row mb-2">
         <div class="col-md-8">
+            {% for question in question_list %}
             <div class=" question row border shadow-sm mb-4">
                 <div class="col-2">
                     <div class="row">
                         <div class="col-12 pt-3 pl-4">
-                            <img src="./anon.png" class="img-avatar"/>
+                            <img src="{% static 'anon.png' %}" class="img-avatar"/>
                         </div>
 
                     </div>
                     <div class="row">
                         <div class="col-12 pl-3">
                             <a class="like btn btn-outline-primary btn-sm" href="#">+</a>
-                            <span style="white-space: pre-line"> 100 </span>
+                            <span style="white-space: pre-line"> {{ question.rating }} </span>
                             <a class="like btn btn-outline-primary btn-sm" href="#">-</a>
                         </div>
                     </div>
@@ -76,101 +79,24 @@
                 <div class="col-8 mt-2">
                     <div class="row">
                         <div class="col">
-                            <a href="#" class="question-link">Remove spacing between cols</a>
-                            <p style="white-space: pre-line"> I want to remove the space between multiple columns in the
-                                Bootstrap grid ... </p>
+                            <a href="#" class="question-link"> {{ question.title }}</a>
+                            <p style="white-space: pre-line"> {{ question.text}} </p>
                         </div>
                     </div>
                     <div class="row mt-4">
                         <div class="col-6">
-                            <a href="#">answers(3)</a>
+                            <a href="#">answers({{ question.answers_amount}})</a>
                         </div>
                         <div class="col-6">
                             <span style="white-space: pre-line"> Tags: </span>
-                            <a href="#" class="tags">black-jack</a>
-                            <a href="#" class="tags">heh</a>
-
+                            {% for tag in question.tags %}
+                            <a href="#" class="tags">{{tag}}</a>
+                            {% endfor %}
                         </div>
                     </div>
                 </div>
             </div>
-
-
-            <div class=" question row border shadow-sm mb-4">
-                <div class="col-2">
-                    <div class="row">
-                        <div class="col-12 pt-3 pl-4">
-                            <img src="./anon.png" class="img-avatar"/>
-                        </div>
-
-                    </div>
-                    <div class="row">
-                        <div class="col-12 pl-3">
-                            <a class="like btn btn-outline-primary btn-sm" href="#">+</a>
-                            <span style="white-space: pre-line"> 100 </span>
-                            <a class="like btn btn-outline-primary btn-sm" href="#">-</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-8 mt-2">
-                    <div class="row">
-                        <div class="col">
-                            <a href="#" class="question-link">Remove spacing between cols</a>
-                            <p style="white-space: pre-line"> I want to remove the space between multiple columns in the
-                                Bootstrap grid ... </p>
-                        </div>
-                    </div>
-                    <div class="row mt-4">
-                        <div class="col-6">
-                            <a href="#">answers(3)</a>
-                        </div>
-                        <div class="col-6">
-                            <span style="white-space: pre-line"> Tags: </span>
-                            <a href="#" class="tags">black-jack</a>
-                            <a href="#" class="tags">heh</a>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class=" question row border shadow-sm mb-4">
-                <div class="col-2">
-                    <div class="row">
-                        <div class="col-12 pt-3 pl-4">
-                            <img src="./anon.png" class="img-avatar"/>
-                        </div>
-
-                    </div>
-                    <div class="row">
-                        <div class="col-12 pl-3">
-                            <a class="like btn btn-outline-primary btn-sm" href="#">+</a>
-                            <span style="white-space: pre-line"> 100 </span>
-                            <a class="like btn btn-outline-primary btn-sm" href="#">-</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-8 mt-2">
-                    <div class="row">
-                        <div class="col">
-                            <a href="#" class="question-link">Remove spacing between cols</a>
-                            <p style="white-space: pre-line"> I want to remove the space between multiple columns in the
-                                Bootstrap grid ... </p>
-                        </div>
-                    </div>
-                    <div class="row mt-4">
-                        <div class="col-6">
-                            <a href="#">answers(3)</a>
-                        </div>
-                        <div class="col-6">
-                            <span style="white-space: pre-line"> Tags: </span>
-                            <a href="#" class="tags">black-jack</a>
-                            <a href="#" class="tags">heh</a>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
+            {% endfor %}
         </div>
 
         <div class="col-md-4 p-100">

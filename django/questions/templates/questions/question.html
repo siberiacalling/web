@@ -55,7 +55,7 @@
                 <div class="col-8 mt-2">
                     <div class="row">
                         <div class="col">
-                            <a href="#" class="question-link">Remove spacing between cols</a>
+                            <a href="#" class="question-link"> {{ question_list.0 }}</a>
                             <p style="white-space: pre-line"> I want to remove the space between multiple columns in the
                                 Bootstrap grid I want to remove the space between multiple columns in the Bootstrap grid
                                 I want to remove the space between</p>
@@ -75,7 +75,7 @@
                 </div>
             </div>
 
-
+            {% for answer in answers %}
             <div class="answer row border shadow-sm mb-4">
                 <div class="col-2">
                     <div class="row">
@@ -88,7 +88,7 @@
                     <div class="row">
                         <div class="col-12 pl-3">
                             <a class="like btn btn-outline-primary btn-sm" href="#">+</a>
-                            <span style="white-space: pre-line"> 100 </span>
+                            <span style="white-space: pre-line"> {{answer.rating}} </span>
                             <a class="like btn btn-outline-primary btn-sm" href="#">-</a>
                         </div>
                     </div>
@@ -96,43 +96,13 @@
                 <div class="col-8 mt-2">
                     <div class="row">
                         <div class="col">
-                            <a href="#" class="question-link">Answer 1</a>
-                            <p style="white-space: pre-line"> I want to remove the space between multiple columns in the
-                                Bootstrap grid I want to remove the space between multiple columns in the Bootstrap grid
-                                I want to remove the space between</p>
+                            <a href="#" class="question-link">{{answer.title}}</a>
+                            <p style="white-space: pre-line"> {{answer.text}}</p>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <div class="answer row border shadow-sm mb-4">
-                <div class="col-2">
-                    <div class="row">
-                        <div class="col-12 pt-4 pl-4">
-                            <img src="{% static 'anon.png' %}" class="img-avatar"/>
-
-                        </div>
-
-                    </div>
-                    <div class="row">
-                        <div class="col-12 pl-3">
-                            <a class="like btn btn-outline-primary btn-sm" href="#">+</a>
-                            <span style="white-space: pre-line"> 100 </span>
-                            <a class="like btn btn-outline-primary btn-sm" href="#">-</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-8 mt-2">
-                    <div class="row">
-                        <div class="col">
-                            <a href="#" class="question-link">Answer 2</a>
-                            <p style="white-space: pre-line"> I want to remove the space between multiple columns in the
-                                Bootstrap grid I want to remove the space between multiple columns in the Bootstrap grid
-                                I want to remove the space between</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            {% endfor %}
         </div>
 
         <div class="col-md-4 p-100">
