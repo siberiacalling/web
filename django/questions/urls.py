@@ -9,4 +9,5 @@ urlpatterns = [
     path('question/35/', views.one_question, name='one_question'),
     path('tag/blablabla/', views.tag, name='tag'),
     path('hot/', views.hot, name='hot'),
+    path('settings/', views.settings, name='settings'),
 ]
