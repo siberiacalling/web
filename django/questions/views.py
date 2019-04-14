@@ -1,5 +1,7 @@
 import random
-from django.shortcuts import render
+
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.shortcuts import render, render_to_response
 
 
 def home_page(request):
@@ -39,8 +41,19 @@ def settings(request):
 
 def hot(request):
     data = generate_question_list(30)
-    question_list = {"question_list": data}
-    return render(request, 'questions/hot_list.html', context=question_list)
+    question_list = data
+
+    paginator = Paginator(question_list, 5)
+
+    page = request.GET.get('page')
+    try:
+        questions = paginator.page(page)
+    except PageNotAnInteger:
+        questions = paginator.page(1)
+    except EmptyPage:
+        questions = paginator.page(paginator.num_pages)
+
+    return render_to_response('questions/hot_list.html', {"questions": questions})
 
 
 def generate_question_list(questions_amount):
@@ -57,6 +70,13 @@ def generate_question_list(questions_amount):
             'answers_amount': random.randint(1, 15)
 
         })
+    return questions
+
+
+def generate_questions(questions_amount):
+    questions = []
+    for i in range(1, questions_amount):
+        questions.append('title' + str(i))
     return questions
 
 
