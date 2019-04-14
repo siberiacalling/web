@@ -4,10 +4,29 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render, render_to_response
 
 
+def paginate(objects_list, request, amount_objects_on_page):
+    paginator = Paginator(objects_list, amount_objects_on_page)
+
+    page = request.GET.get('page')
+    try:
+        objects_page = paginator.page(page)
+    except PageNotAnInteger:
+        objects_page = paginator.page(1)
+    except EmptyPage:
+        objects_page = paginator.page(paginator.num_pages)
+    return objects_page
+
+
 def home_page(request):
-    data = generate_question_list(30)
-    question_list = {"question_list": data}
-    return render(request, 'questions/index.html', context=question_list)
+    question_list = generate_question_list(30)
+    questions = paginate(question_list, request, 5)
+    return render_to_response('questions/hot_list.html', {"questions": questions})
+
+
+def hot(request):
+    question_list = generate_question_list(30)
+    questions = paginate(question_list, request, 5)
+    return render_to_response('questions/hot_list.html', {"questions": questions})
 
 
 def ask(request):
@@ -23,10 +42,13 @@ def login(request):
 
 
 def one_question(request):
-    data = generate_answers_list()
     question = generate_question()
-    data = {"question": question, "answers": data}
-    return render(request, 'questions/question.html', context=data)
+
+    answers_list = generate_answers_list(15)
+    answers = paginate(answers_list, request, 5)
+
+    return render_to_response('questions/question.html', {"question": question, "answers": answers})
+   # return render(request, 'questions/question.html', context=data)
 
 
 def tag(request):
@@ -37,23 +59,6 @@ def tag(request):
 
 def settings(request):
     return render(request, 'questions/settings.html', {})
-
-
-def hot(request):
-    data = generate_question_list(30)
-    question_list = data
-
-    paginator = Paginator(question_list, 5)
-
-    page = request.GET.get('page')
-    try:
-        questions = paginator.page(page)
-    except PageNotAnInteger:
-        questions = paginator.page(1)
-    except EmptyPage:
-        questions = paginator.page(paginator.num_pages)
-
-    return render_to_response('questions/hot_list.html', {"questions": questions})
 
 
 def generate_question_list(questions_amount):
@@ -94,9 +99,9 @@ def generate_question():
     return question
 
 
-def generate_answers_list():
+def generate_answers_list(answers_amount):
     questions = []
-    for i in range(1, 7):
+    for i in range(answers_amount):
         questions.append({
             'title': 'answer' + str(i),
             'id': i,

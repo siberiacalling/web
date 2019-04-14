@@ -23,7 +23,7 @@
 
     <div class="row mb-2">
         <div class="col-md-8">
-            {% for question in question_list %}
+            {% for question in questions %}
             <div class=" question row border shadow-sm mb-4">
                 <div class="col-2">
                     <div class="row">
@@ -63,6 +63,24 @@
             {% endfor %}
         </div>
         {% include "./base_tags_popular.html" %}
+    </div>
+
+    <div class="row pagination">
+        <div class="col-md-8 text-center">
+            <span class="step-links">
+                {% if questions.has_previous %}
+                    <a href="?page={{ questions.previous_page_number }}">previous</a>
+                {% endif %}
+
+                <span class="current">
+                    Page {{ questions.number }} of {{ questions.paginator.num_pages }}
+                </span>
+
+                {% if questions.has_next %}
+                    <a href="?page={{ questions.next_page_number }}">next</a>
+                {% endif %}
+            </span>
+        </div>
     </div>
 </div>
 {% endblock %}
