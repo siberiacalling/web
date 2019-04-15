@@ -23,13 +23,13 @@ class AnswerManager(models.Manager):
 
 
 class QuestionManager(models.Manager):
-    def get_new_questions(self):
+    def new(self):
         return self.order_by('-date')
 
-    def get_hot_questions(self):
+    def hot(self):
         return self.order_by('-rating')
 
-    def get_questions_by_tag(self, tag):
+    def by_tags(self, tag):
         return self.filter(tags__title=tag)
 
     def by_id(self, q_id):

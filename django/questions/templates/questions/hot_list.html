@@ -54,7 +54,7 @@
                         </div>
                         <div class="col-6">
                             <span style="white-space: pre-line"> Tags: </span>
-                            {% for tag in question.tags %}
+                            {% for tag in question.tags.all %}
                             <a href="{% url 'tag' %}" class="tags">{{tag}}</a>
                             {% endfor %}
                         </div>
