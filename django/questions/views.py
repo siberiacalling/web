@@ -20,7 +20,7 @@ def paginate(objects_list, request, amount_objects_on_page):
 def home_page(request):
     question_list = generate_question_list(30)
     questions = paginate(question_list, request, 5)
-    return render_to_response('questions/hot_list.html', {"questions": questions})
+    return render_to_response('questions/index.html', {"questions": questions})
 
 
 def hot(request):
