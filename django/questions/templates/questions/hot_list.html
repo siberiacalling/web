@@ -44,18 +44,18 @@
                 <div class="col-8 mt-2">
                     <div class="row">
                         <div class="col">
-                            <a href="{% url 'one_question' %}" class="question-link"> {{ question.title }}</a>
+                            <a href="{% url 'one_question' q_id=question.id %}" class="question-link"> {{ question.title }}</a>
                             <p style="white-space: pre-line"> {{ question.text}} </p>
                         </div>
                     </div>
                     <div class="row mt-4">
                         <div class="col-6">
-                            <a href="{% url 'one_question' %}">answers({{ question.answers_amount}})</a>
+                            <a href="{% url 'one_question' q_id=question.id %}">answers({{ question.answers_amount}})</a>
                         </div>
                         <div class="col-6">
                             <span style="white-space: pre-line"> Tags: </span>
                             {% for tag in question.tags %}
-                            <a href="{% url 'tag' %}" class="tags">{{tag}}</a>
+                            <a href="{% url 'tag' tag%}" class="tags">{{tag}}</a>
                             {% endfor %}
                         </div>
                     </div>

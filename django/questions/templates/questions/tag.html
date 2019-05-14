@@ -7,7 +7,7 @@
         <div class="top_header col-md-8 col-centered border-bottom shadow-sm top_question">
             <div class="row">
                 <div class="col-md-8">
-                    <h2 class="col">Tag: black-jack</h2>
+                    <h2 class="col">Tag: {{tag}}</h2>
                 </div>
             </div>
         </div>
@@ -59,8 +59,8 @@
             </div>
             {% endfor %}
         </div>
-
         {% include "./base_tags_popular.html" %}
     </div>
+    {% include "./paginator.html" with pages=question_list %}
 </div>
 {% endblock %}

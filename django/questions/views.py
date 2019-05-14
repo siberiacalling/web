@@ -3,8 +3,10 @@ import random
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render, render_to_response
 
+from .config import *
 
-def paginate(objects_list, request, amount_objects_on_page):
+
+def paginate(objects_list, request):
     paginator = Paginator(objects_list, amount_objects_on_page)
 
     page = request.GET.get('page')
@@ -18,14 +20,14 @@ def paginate(objects_list, request, amount_objects_on_page):
 
 
 def home_page(request):
-    question_list = generate_question_list(30)
-    questions = paginate(question_list, request, 5)
-    return render_to_response('questions/hot_list.html', {"questions": questions})
+    question_list = generate_question_list_by_amount(30)
+    questions = paginate(question_list, request)
+    return render_to_response('questions/index.html', {"questions": questions})
 
 
 def hot(request):
-    question_list = generate_question_list(30)
-    questions = paginate(question_list, request, 5)
+    question_list = generate_question_list_by_amount(30)
+    questions = paginate(question_list, request)
     return render_to_response('questions/hot_list.html', {"questions": questions})
 
 
@@ -41,30 +43,44 @@ def login(request):
     return render(request, 'questions/login.html', {})
 
 
-def one_question(request):
-    question = generate_question()
-
-    answers_list = generate_answers_list(15)
-    answers = paginate(answers_list, request, 5)
-
-    return render_to_response('questions/question.html', {"question": question, "answers": answers})
-   # return render(request, 'questions/question.html', context=data)
+def one_question(request, q_id):
+    question = generate_question(q_id)
+    answers_list = generate_answers_list(random.randint(1, 25))
+    answers = paginate(answers_list, request)
+    return render(request, "questions/question.html", {"question": question, "answers": answers})
 
 
-def tag(request):
-    data = generate_question_list(3)
-    question_list = {"question_list": data}
-    return render(request, 'questions/tag.html', context=question_list)
+def tag(request, tag_name):
+    data = generate_question_list_by_tag(tag_name)
+    #question_list = {"question_list": data}
+    return render(request, 'questions/tag.html', {"question_list": data, "tag": tag_name})
 
 
 def settings(request):
     return render(request, 'questions/settings.html', {})
 
 
-def generate_question_list(questions_amount):
+def generate_question_list_by_tag(tag_name):
+    questions = []
+    for i in range(1, questions_amount_per_tag):
+        tags = ['tag' + str(random.randint(1, 20)), 'tag' + str(random.randint(1, 20)), tag_name ]
+
+        questions.append({
+            'title': 'title' + str(i),
+            'id': i,
+            'tags': tags,
+            'text': 'text' + str(i),
+            'rating': random.randint(1, 50),
+            'answers_amount': random.randint(1, 15)
+
+        })
+    return questions
+
+
+def generate_question_list_by_amount(questions_amount):
     questions = []
     for i in range(1, questions_amount):
-        tags = ['tag' + str(random.randint(1, 20)), 'tag' + str(random.randint(1, 20))]
+        tags = ['tag' + str(random.randint(1, 20)), 'tag' + str(random.randint(1, 20)), ]
 
         questions.append({
             'title': 'title' + str(i),
@@ -85,14 +101,13 @@ def generate_questions(questions_amount):
     return questions
 
 
-def generate_question():
+def generate_question(q_id):
     tags = ['tag' + str(random.randint(1, 20)), 'tag' + str(random.randint(1, 20))]
-    i = random.randint(1, 50)
     question = {
-        'title': 'title' + str(i),
-        'id': i,
+        'title': 'title' + str(q_id),
+        'id': q_id,
         'tags': tags,
-        'text': 'text' + str(i),
+        'text': 'text' + str(q_id),
         'rating': random.randint(1, 50),
         'answers_amount': random.randint(1, 15)
     }
