@@ -64,23 +64,7 @@
         </div>
         {% include "./base_tags_popular.html" %}
     </div>
+    {% include "./paginator.html" with pages=questions %}
 
-    <div class="row pagination">
-        <div class="col-md-8 text-center">
-            <span class="step-links">
-                {% if questions.has_previous %}
-                    <a href="?page={{ questions.previous_page_number }}">previous</a>
-                {% endif %}
-
-                <span class="current">
-                    Page {{ questions.number }} of {{ questions.paginator.num_pages }}
-                </span>
-
-                {% if questions.has_next %}
-                    <a href="?page={{ questions.next_page_number }}">next</a>
-                {% endif %}
-            </span>
-        </div>
-    </div>
 </div>
 {% endblock %}
