@@ -1,13 +1,11 @@
 import random
-
+from django.conf import settings
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render, render_to_response
 
-from .config import *
-
 
 def paginate(objects_list, request):
-    paginator = Paginator(objects_list, amount_objects_on_page)
+    paginator = Paginator(objects_list, settings.AMOUNT_OBJECTS_ON_PAGE)
 
     page = request.GET.get('page')
     try:
@@ -52,18 +50,17 @@ def one_question(request, q_id):
 
 def tag(request, tag_name):
     data = generate_question_list_by_tag(tag_name)
-    #question_list = {"question_list": data}
     return render(request, 'questions/tag.html', {"question_list": data, "tag": tag_name})
 
 
-def settings(request):
+def user_settings(request):
     return render(request, 'questions/settings.html', {})
 
 
 def generate_question_list_by_tag(tag_name):
     questions = []
-    for i in range(1, questions_amount_per_tag):
-        tags = ['tag' + str(random.randint(1, 20)), 'tag' + str(random.randint(1, 20)), tag_name ]
+    for i in range(1, settings.QUESTIONS_AMOUNT_PER_TAG):
+        tags = ['tag' + str(random.randint(1, 20)), 'tag' + str(random.randint(1, 20)), tag_name]
 
         questions.append({
             'title': 'title' + str(i),

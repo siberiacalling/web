@@ -1,5 +1,4 @@
 from django.urls import path
-
 from . import views
 
 urlpatterns = [
@@ -10,5 +9,5 @@ urlpatterns = [
     path(r'question/<int:q_id>', views.one_question, name='one_question'),
     path('tag/<slug:tag_name>', views.tag, name='tag'),
     path('hot/', views.hot, name='hot'),
-    path('settings/', views.settings, name='settings'),
+    path('settings/', views.user_settings, name='settings'),
 ]
