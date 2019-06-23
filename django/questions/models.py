@@ -1,25 +1,22 @@
-from django.contrib.auth.models import User
 from django.db import models
 from django.http import Http404
 from django.utils import timezone
+from django.contrib.auth.models import AbstractUser
+from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
+from django.contrib.contenttypes.models import ContentType
 
 
 class AnswerManager(models.Manager):
-    def by_id(self, id):
-        return self.filter(question=id)
+    def by_id(self, q_id):
+        return self.filter(question=q_id)
 
     def new_answer(self, text, author, question):
         a = Answer(text=text, author=author, question=question)
         a.save()
         return self.get(id=a.id)
 
-    def get_page(self, a_id, answers_per_page):
-        q = Answer.objects.get(id=a_id).question
-        return int(len(Answer.objects.filter(question=q)) / answers_per_page + 1)
-
-    def by_username(self, username):
-        u = User.objects.get(username=username)
-        return self.filter(author=u)
+    def new(self, q_id):
+        return self.by_id(q_id).order_by('-date')
 
 
 class QuestionManager(models.Manager):
@@ -38,49 +35,51 @@ class QuestionManager(models.Manager):
         except Question.DoesNotExist:
             raise Http404("Question does not exist")
 
-    def by_username(self, username):
-        current_user = User.objects.get(username=username)
-        return self.filter(author=current_user)
-
-
-class ProfileManager(models.Manager):
-    def by_username(self, username):
-        u = User.objects.get(username=username)
-        return self.get(avatar=u)
-
 
 class Like(models.Model):
-    user = models.ForeignKey(User, on_delete=models.PROTECT)
-    question = models.ForeignKey('questions.Question', on_delete=models.PROTECT)
-    is_like = models.BooleanField(default=True)
+    user = models.ForeignKey('questions.Profile', on_delete=models.PROTECT)
+    positive = models.BooleanField()
+
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    object_id = models.PositiveIntegerField()
+    content_object = GenericForeignKey('content_type', 'object_id')
+
+    class Meta:
+        unique_together = ('user', 'content_type', 'object_id')
 
 
 class Question(models.Model):
     title = models.CharField(max_length=200)
     text = models.TextField()
     date = models.DateTimeField(default=timezone.now)
-    author = models.ForeignKey(User, on_delete=models.PROTECT)
-    rating = models.IntegerField(default=0)
+    author = models.ForeignKey('questions.Profile', on_delete=models.PROTECT)
     tags = models.ManyToManyField('questions.Tag')
-    likes = models.ManyToManyField(User, related_name='likes_users', through='Like')
+
+    # Предагрегированное значение количества лайков - количество дислайков.
+    # Должно обновляться при дабавлении/убирании лайка, т.е. быть синхронизированно с таблицей likes.
+    # Поле дредназначено для оптимизации времени запросов, в которых есть сортировка по рейтингу.
+    rating = models.IntegerField(default=0)
+
+    likes = GenericRelation(Like)
+
     objects = QuestionManager()
 
     def __str__(self):
         return self.title
 
-    def _count_rating(self):
-        votes = Like.objects.filter(question=self)
-        return len(votes.filter(is_like=True)) - len(votes.filter(is_like=False))
-
-    likes_amount = property(_count_rating)
-
 
 class Answer(models.Model):
     text = models.TextField()
-    author = models.ForeignKey(User, on_delete=models.PROTECT)
+    author = models.ForeignKey('questions.Profile', on_delete=models.PROTECT)
     question = models.ForeignKey('questions.Question', on_delete=models.PROTECT)
     date = models.DateTimeField(default=timezone.now)
     is_correct = models.BooleanField(default=False)
+
+    # см. Question#likes
+    rating = models.IntegerField(default=0)
+
+    likes = GenericRelation(Like)
+
     objects = AnswerManager()
 
     def __str__(self):
@@ -88,14 +87,11 @@ class Answer(models.Model):
 
 
 class Tag(models.Model):
-    title = models.CharField(max_length=30, unique=True)
+    title = models.CharField(max_length=32, unique=True)
 
     def __str__(self):
         return self.title
 
 
-class Profile(models.Model):
-    avatar = models.OneToOneField(User, on_delete=models.PROTECT)
-    pic = models.CharField(max_length=128)
-    picture = models.ImageField()
-    objects = ProfileManager()
+class Profile(AbstractUser):
+    pic = models.ImageField(default='anon.png')

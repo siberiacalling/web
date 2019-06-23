@@ -1,109 +1,87 @@
-{% extends "./base_authorized.html" %}
+{% extends "./base_not_authorized.html" %}
 {% load static %}
 
 {% block content %}
-<div class="container">
-    <div class="row mb-2">
-        <div class="col-md-8">
-            <div class="one-question row border-bottom shadow-sm mb-4">
-                <div class="col-2">
-                    <div class="row">
-                        <div class="col-12 pt-4 pl-4">
-                            <img src="{% static 'anon.png' %}" class="img-avatar"/>
-                        </div>
+    <div class="container">
+        <div class="row mb-2">
+            <div class="col-md-9">
+                <div class="one-question row border-bottom shadow-sm mb-4">
+                    <div class="col-2">
+                        <div class="row">
+                            <div class="col-12 pt-4 pl-4">
+                                {{ question.author }}
+                                <img src="{% static 'anon.png' %}" class="img-avatar"/>
+                            </div>
 
-                    </div>
-                    <div class="row">
-                        <div class="col-12 pl-3">
-                            <a class="like btn btn-outline-primary btn-sm" href="#">+</a>
-                            <span style="white-space: pre-line"> {{ question.rating }} </span>
-                            <a class="like btn btn-outline-primary btn-sm" href="#">-</a>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 pt-4 pl-4">
+                                <a class="like btn btn-outline-primary btn-sm" href="#">+</a>
+                                <span style="white-space: pre-line"> {{ question.rating }} </span>
+                                <a class="like btn btn-outline-primary btn-sm" href="#">-</a>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-8 mt-2">
-                    <div class="row">
-                        <div class="col">
-                            <a href="#" class="question-link"> {{ question.title }}</a>
-                            <p style="white-space: pre-line"> {{ question.text}}</p>
+                    <div class="col-8 mt-2">
+                        <div class="row">
+                            <div class="col">
+                                <a href="{% url 'one_question' q_id=question.id %}">{{ question.title }}</a>
+                                <p style="white-space: pre-line"> {{ question.text }}</p>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row mt-5">
-                        <div class="col-6">
-                            <a href="#">answers({{ question.answers_amount}})</a>
-                        </div>
-                        <div class="col-6">
-                            <span style="white-space: pre-line"> Tags: </span>
+                        <div class="row mt-5">
+                            <span style="white-space: pre-line"> Tags:&nbsp;</span>
                             {% for tag in question.tags.all %}
-                            <a href="#" class="tags">{{tag}}</a>
+                                <a href="{% url 'tag' tag %}" class="tags">{{ tag }}&nbsp;</a>
                             {% endfor %}
-
                         </div>
                     </div>
                 </div>
+
+                {% for answer in answers %}
+                    <div class="answer row border shadow-sm mb-4">
+                        <div class="col-2">
+                            <div class="row">
+                                <div class="col-12 pl-3">
+                                    {{ answer.author }}
+                                    <img src="{% static 'anon.png' %}" class="img-avatar"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 pl-3">
+                                    <a class="like btn btn-outline-primary btn-sm" href="#">+</a>
+                                    <span style="white-space: pre-line"> {{ answer.rating }} </span>
+                                    <a class="like btn btn-outline-primary btn-sm" href="#">-</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-8 mt-2">
+                            <div class="row">
+                                <div class="col">
+                                    <a href="#" class="question-link">{{ answer.title }}</a>
+                                    <p style="white-space: pre-line"> {{ answer.text }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
             </div>
 
-            {% for answer in answers %}
-            <div class="answer row border shadow-sm mb-4">
-                <div class="col-2">
-                    <div class="row">
-                        <div class="col-12 pt-4 pl-4">
-                            <img src="{% static 'anon.png' %}" class="img-avatar"/>
+            {% include "./base_tags_popular.html" %}
 
-                        </div>
 
+            <div class="col-md-8">
+                <form>
+                    <div class="form-group">
+                        <label for="answer">Your answer</label>
+                        <textarea class="form-control" id="answer" rows="3"
+                                  placeholder="Enter your answer"></textarea>
                     </div>
-                    <div class="row">
-                        <div class="col-12 pl-3">
-                            <a class="like btn btn-outline-primary btn-sm" href="#">+</a>
-                            <span style="white-space: pre-line"> {{answer.rating}} </span>
-                            <a class="like btn btn-outline-primary btn-sm" href="#">-</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-8 mt-2">
-                    <div class="row">
-                        <div class="col">
-                            <a href="#" class="question-link">{{answer.author}}</a>
-                            <p style="white-space: pre-line"> {{answer.text}}</p>
-                        </div>
-                    </div>
-                </div>
+                </form>
+                <a href="/questions/ask" class="btn btn-outline-primary">Aswer</a>
             </div>
-            {% endfor %}
         </div>
 
-        {% include "./base_tags_popular.html" %}
-
-
-        <div class="col-md-8">
-            <form>
-                <div class="form-group">
-                    <label for="answer">Your answer</label>
-                    <textarea class="form-control" id="answer" rows="3"
-                              placeholder="Enter your answer"></textarea>
-                </div>
-            </form>
-            <a href="/questions/ask" class="btn btn-outline-primary">Aswer</a>
-        </div>
+        {% include "./paginator.html" with pages=answers %}
     </div>
-
-    <div class="row pagination">
-        <div class="col-md-8 text-center">
-                <span class="step-links">
-                    {% if answers.has_previous %}
-                        <a href="?page={{ answers.previous_page_number }}">previous</a>
-                    {% endif %}
-
-                    <span class="current">
-                        Page {{ answers.number }} of {{ answers.paginator.num_pages }}
-                    </span>
-
-                    {% if answers.has_next %}
-                        <a href="?page={{ answers.next_page_number }}">next</a>
-                    {% endif %}
-                </span>
-        </div>
-    </div>
-</div>
 {% endblock %}

@@ -1,0 +1,4 @@
+CREATE DATABASE IF NOT EXISTS questions;
+
+CREATE USER IF NOT EXISTS 'anita'@'localhost' IDENTIFIED BY 'admin';
+GRANT ALL PRIVILEGES ON questions.* TO 'anita'@'localhost' WITH GRANT OPTION;

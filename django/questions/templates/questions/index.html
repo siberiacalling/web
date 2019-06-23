@@ -2,85 +2,72 @@
 {% load static %}
 
 {% block content %}
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="top_header col-md-8 col-centered border-bottom shadow-sm top_question">
-            <div class="row">
-                <div class="col-md-8">
-                    <h2 class="col">Top Questions</h2>
-                </div>
-                <div class="col-md-4">
-                    <a href="{% url 'hot' %}" class="hot-question-link">Hot questions</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4" role="navigation">
-            <a href="{% url 'ask' %}" class="btn btn-outline-primary">
-                Ask Question
-            </a>
-        </div>
-    </div>
-
-    <div class="row mb-2">
-        <div class="col-md-8">
-            {% for question in questions %}
-            <div class=" question row border shadow-sm mb-4">
-                <div class="col-2">
-                    <div class="row">
-                        <div class="col-12 pt-3 pl-4">
-                            <img src="{% static 'anon.png' %}" class="img-avatar"/>
-                        </div>
-
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="top_header col-md-8 col-centered border-bottom shadow-sm top_question">
+                <div class="row">
+                    <div class="col-md-8">
+                        <h2 class="col">Top Questions</h2>
                     </div>
-                    <div class="row">
-                        <div class="col-12 pl-4">
-                            <a class="like btn btn-outline-primary btn-sm" href="#">+</a>
-                            <span style="white-space: pre-line"> {{ question.rating }} </span>
-                            <a class="like btn btn-outline-primary btn-sm" href="#">-</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-8 mt-2">
-                    <div class="row">
-                        <div class="col">
-                            <a href="{% url 'one_question' q_id=question.id %}" class="question-link"> {{ question.title }}</a>
-                            <p style="white-space: pre-line"> {{ question.text}} </p>
-                        </div>
-                    </div>
-                    <div class="row mt-4">
-                        <div class="col-6">
-                            <a href="{% url 'one_question' q_id=question.id %}">answers({{ question.answers_amount}})</a>
-                        </div>
-                        <div class="col-6">
-                            <span style="white-space: pre-line"> Tags: </span>
-                            {% for tag in question.tags.all %}
-                            <a href="{% url 'tag' %}" class="tags">{{tag}}</a>
-                            {% endfor %}
-                        </div>
+                    <div class="col-md-4">
+                        <a href="{% url 'hot' %}" class="hot-question-link">Hot questions</a>
                     </div>
                 </div>
             </div>
-            {% endfor %}
+            <div class="col-md-4" role="navigation">
+                <a href="{% url 'ask' %}" class="btn btn-outline-primary">
+                    Ask Question
+                </a>
+            </div>
         </div>
-        {% include "./base_tags_popular.html" %}
-    </div>
 
-    <div class="row pagination">
-        <div class="col-md-8 text-center">
-            <span class="step-links">
-                {% if questions.has_previous %}
-                    <a href="?page={{ questions.previous_page_number }}">previous</a>
-                {% endif %}
+        <div class="row mb-2">
+            <div class="col-md-9">
+                {% for question in questions %}
+                    <div class=" question row border shadow-sm mb-4">
+                        <div class="col-2">
+                            <div class="row">
+                                <div class="col-12 pt-3 pl-4">
+                                    {{ question.author }}
+                                    <img src="{% static 'anon.png' %}" class="img-avatar"/>
+                                </div>
 
-                <span class="current">
-                    Page {{ questions.number }} of {{ questions.paginator.num_pages }}
-                </span>
-
-                {% if questions.has_next %}
-                    <a href="?page={{ questions.next_page_number }}">next</a>
-                {% endif %}
-            </span>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 pt-3 pl-4">
+                                    <a class="like btn btn-outline-primary btn-sm" href="#">+</a>
+                                    <span style="white-space: pre-line"> {{ question.rating }} </span>
+                                    <a class="like btn btn-outline-primary btn-sm" href="#">-</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-8 mt-2">
+                            <div class="row">
+                                <div class="col">
+                                    <a href="{% url 'one_question' q_id=question.id %}"
+                                       class="question-link"> {{ question.title }}</a>
+                                    <p style="white-space: pre-line"> {{ question.text }} </p>
+                                </div>
+                            </div>
+                            <div class="row mt-4">
+                                <div class="col-6">
+                                    <a href="{% url 'one_question' q_id=question.id %}">Answers</a>
+                                </div>
+                                <div class="col-6">
+                                    <span style="white-space: pre-line"> Tags: </span>
+                                    {% for tag in question.tags.all %}
+                                        <a href="{% url 'tag' tag %}" class="tags">{{ tag }}</a>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            {% include "./base_tags_popular.html" %}
         </div>
+
+        {% include "./paginator.html" with pages=questions %}
+
     </div>
-</div>
 {% endblock %}

@@ -17,3 +17,11 @@
 - Домашнее задание 5 ([Markdown](/markdown/task-5.md))
 - Домашнее задание 6 ([Markdown](/markdown/task-6.md))
 - Домашнее задание 7 ([Markdown](/markdown/task-7.md))
+
+## Как запустить
+1. Поставить `python3`, `mysql`, `virtualenv`
+2. `pip install -r requirements.txt`
+3. `mysql -u root -p < setup.sql`
+4. `django/manage.py migrate`
+5. `django/manage.py fill_db`
+6. `django/manage.py runserver`

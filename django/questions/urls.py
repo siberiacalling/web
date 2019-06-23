@@ -8,7 +8,7 @@ urlpatterns = [
     path('signup/', views.signup, name='signup'),
     path('login/', views.login, name='login'),
     url(r'^question/(?P<q_id>[0-9]+)$', views.one_question, name='one_question'),
-    path('tag/blablabla/', views.tag, name='tag'),
+    url(r'^tag/(?P<my_tag>.+)$', views.tag, name='tag'),
     path('hot/', views.hot, name='hot'),
     path('settings/', views.settings, name='settings'),
 ]
