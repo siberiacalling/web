@@ -1,9 +1,11 @@
-from django.core.management.base import BaseCommand
-from django.db.utils import IntegrityError
-from questions.models import Question, Tag, Answer, Like, Profile
-from django.db import transaction
-from faker import Factory
 import random
+
+from django.core.exceptions import ObjectDoesNotExist
+from django.core.management.base import BaseCommand
+from django.db import transaction
+from django.db.utils import IntegrityError
+from faker import Factory
+from questions.models import Question, Tag, Answer, Like, Profile
 
 fake = Factory.create('en_US')
 
@@ -11,10 +13,10 @@ fake = Factory.create('en_US')
 class Command(BaseCommand):
     help = 'Fill the database'
 
-    USERS_AMOUNT = 100
-    TAG_AMOUNT = 100
-    QUESTIONS_AMOUNT = 1000
-    ANSWERS_AMOUNT = 10000
+    USERS_AMOUNT = 10000
+    TAG_AMOUNT = 10000
+    QUESTIONS_AMOUNT = 100000
+    ANSWERS_AMOUNT = 206325
 
     def handle(self, *args, **options):
         # generating profiles
@@ -24,13 +26,19 @@ class Command(BaseCommand):
                 email=fake.email(),
                 password=fake.word())
             print(i)
-            u.save()
+            try:
+                u.save()
+            except IntegrityError as e:
+                pass  # ignore duplicate tags
 
         # generating tags
         for i in range(0, self.TAG_AMOUNT):
             t = Tag(title=fake.word() + str(random.randint(0, self.USERS_AMOUNT)))
             print(i)
-            t.save()
+            try:
+                t.save()
+            except IntegrityError as e:
+                pass  # ignore duplicate tags
 
         # generating questions
         for i in range(0, self.QUESTIONS_AMOUNT):
@@ -38,10 +46,13 @@ class Command(BaseCommand):
                          text=fake.text()[:100],
                          author=Profile.objects.get(id=random.randint(1, self.USERS_AMOUNT)))
             q.save()
-            random_tag_id = random.randint(2, self.TAG_AMOUNT - 1)
-            q.tags.add(Tag.objects.get(id=random_tag_id),
-                       Tag.objects.get(id=random_tag_id + 1),
-                       Tag.objects.get(id=random_tag_id - 1))
+            random_tag_id = random.randint(2, self.TAG_AMOUNT - 2)
+            try:
+                q.tags.add(Tag.objects.get(id=random_tag_id),
+                           Tag.objects.get(id=random_tag_id + 1),
+                           Tag.objects.get(id=random_tag_id - 1))
+            except ObjectDoesNotExist:
+                pass
             q.save()
             print(i)
 
@@ -50,7 +61,10 @@ class Command(BaseCommand):
             a = Answer(text=fake.text()[:100],
                        author=Profile.objects.get(id=random.randint(1, self.USERS_AMOUNT)),
                        question=Question.objects.get(id=random.randint(1, self.QUESTIONS_AMOUNT)))
-            a.save()
+            try:
+                a.save()
+            except ObjectDoesNotExist:
+                pass
             print(i)
 
         # generating likes

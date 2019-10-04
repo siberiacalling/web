@@ -55,9 +55,6 @@ class Question(models.Model):
     author = models.ForeignKey('questions.Profile', on_delete=models.PROTECT)
     tags = models.ManyToManyField('questions.Tag')
 
-    # Предагрегированное значение количества лайков - количество дислайков.
-    # Должно обновляться при дабавлении/убирании лайка, т.е. быть синхронизированно с таблицей likes.
-    # Поле дредназначено для оптимизации времени запросов, в которых есть сортировка по рейтингу.
     rating = models.IntegerField(default=0)
 
     likes = GenericRelation(Like)
